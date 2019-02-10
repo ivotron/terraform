@@ -1,8 +1,8 @@
 FROM hashicorp/terraform:0.11.11
 
 LABEL version="1.0.0"
-LABEL repository="http://github.com/innovationnorway/actions/terraform"
-LABEL homepage="http://github.com/innovationnorway/actions/terraform"
+LABEL repository="http://github.com/innovationnorway/github-action-terraform"
+LABEL homepage="http://github.com/innovationnorway/github-action-terraform"
 LABEL maintainer="Innovation Norway Support <support+github@innovationnorway.com>"
 
 LABEL "com.github.actions.name"="GitHub Action for Terraform"
