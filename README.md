@@ -47,6 +47,7 @@ action "terraform-init" {
   uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = "terraform-fmt"
   args = ["init", "-input=false", "-no-color"]
+  secrets = ["TFE_TOKEN"]
 }
 
 action "terraform-validate" {
@@ -99,6 +100,7 @@ action "terraform-init" {
   uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = "terraform-fmt"
   args = ["init", "-input=false", "-no-color"]
+  secrets = ["TFE_TOKEN"]
 }
 
 action "terraform-validate" {
@@ -161,6 +163,8 @@ action "terraform-apply-prod" {
 ### Environment variables
 
 * `TF_WORKSPACE` - (Optional) Set existing Terraform workspace name.
+
+* `TFE_TOKEN` - (Optional) A Terraform Enterprise [user API token](https://www.terraform.io/docs/enterprise/users-teams-organizations/users.html#api-tokens).
 
 ## License
 
