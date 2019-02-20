@@ -13,20 +13,20 @@ workflow "Terraform" {
 }
 
 action "terraform-fmt" {
-  uses = "innovationnorway/github-action-terraform@master"
-  args = ["fmt", "-check", "-list", "-no-color"]
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
+  args = ["fmt", "-check", "-list", "-recursive"]
 }
 
 action "terraform-init" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = "terraform-fmt"
   args = ["init", "-backend=false", "-input=false", "-no-color"]
 }
 
 action "terraform-validate" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = "terraform-init"
-  args = ["validate", "-check-variables=false", "-no-color"]
+  args = ["validate"]
 }
 ```
 
@@ -39,24 +39,24 @@ workflow "Terraform" {
 }
 
 action "terraform-fmt" {
-  uses = "innovationnorway/github-action-terraform@master"
-  args = ["fmt", "-check", "-no-color"]
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
+  args = ["fmt", "-check", "-list", "-recursive"]
 }
 
 action "terraform-init" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = "terraform-fmt"
   args = ["init", "-input=false", "-no-color"]
 }
 
 action "terraform-validate" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = "terraform-init"
-  args = ["validate", "-no-color"]
+  args = ["validate"]
 }
 
 action "terraform-plan" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = ["terraform-validate"]
   args = ["plan", "-input=false", "-no-color", "-out=tfplan"]
   secrets = ["VAULT_TOKEN"]
@@ -72,7 +72,7 @@ action "filter-master-branch" {
 }
 
 action "terraform-apply" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = ["filter-master-branch"]
   args = ["apply", "-auto-approve", "-input=false", "-no-color", "tfplan"]
   secrets = ["VAULT_TOKEN"]
@@ -91,24 +91,24 @@ workflow "Terraform" {
 }
 
 action "terraform-fmt" {
-  uses = "innovationnorway/github-action-terraform@master"
-  args = ["fmt", "-check", "-no-color"]
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
+  args = ["fmt", "-check", "-list", "-recursive"]
 }
 
 action "terraform-init" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = "terraform-fmt"
   args = ["init", "-input=false", "-no-color"]
 }
 
 action "terraform-validate" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = "terraform-init"
-  args = ["validate", "-no-color"]
+  args = ["validate"]
 }
 
 action "terraform-plan-stage" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = ["terraform-validate"]
   args = ["plan", "-input=false", "-no-color", "-out=tfplan"]
   secrets = ["VAULT_TOKEN"]
@@ -119,7 +119,7 @@ action "terraform-plan-stage" {
 }
 
 action "terraform-apply-stage" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = ["terraform-plan-stage"]
   args = ["apply", "-auto-approve", "-input=false", "-no-color", "tfplan"]
   secrets = ["VAULT_TOKEN"]
@@ -136,7 +136,7 @@ action "filter-master-branch" {
 }
 
 action "terraform-plan-prod" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = ["filter-master-branch"]
   args = ["plan", "-input=false", "-no-color", "-out=tfplan"]
   secrets = ["VAULT_TOKEN"]
@@ -147,7 +147,7 @@ action "terraform-plan-prod" {
 }
 
 action "terraform-apply-prod" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/github-action-terraform@v0.12.0-dev"
   needs = ["terraform-plan-prod"]
   args = ["apply", "-auto-approve", "-input=false", "-no-color", "tfplan"]
   secrets = ["VAULT_TOKEN"]
