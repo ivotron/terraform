@@ -1,4 +1,4 @@
-FROM hashicorp/terraform:0.11.12
+FROM hashicorp/terraform:0.11.13
 
 LABEL version="1.0.0"
 LABEL repository="http://github.com/innovationnorway/github-action-terraform"
