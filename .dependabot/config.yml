@@ -1,0 +1,17 @@
+version: 1
+update_configs:
+  - package_manager: "docker"
+    directory: "/"
+    update_schedule: "daily"
+
+  - package_manager: "docker"
+    directory: "/fmt"
+    update_schedule: "daily"
+
+  - package_manager: "docker"
+    directory: "/validate"
+    update_schedule: "daily"
+    
+  - package_manager: "docker"
+    directory: "/test"
+    update_schedule: "daily"
