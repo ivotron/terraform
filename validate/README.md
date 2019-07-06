@@ -5,7 +5,7 @@ This Action runs `terraform validate` on pull requests.
 ## Usage
 
 ```hcl
-workflow "Terraform validate" {
+workflow "Terraform" {
   on = "pull_request"
   resolves = ["terraform-validate"]
 }
