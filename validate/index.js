@@ -46,6 +46,6 @@ Toolkit.run(async tools => {
   }
 },
   {
-    event: ['pull_request.opened', 'pull_request.synchronize'],
+    event: ['pull_request.opened', 'pull_request.rerequested', 'pull_request.synchronize'],
     secrets: ['GITHUB_TOKEN']
   })
