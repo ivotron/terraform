@@ -18,25 +18,25 @@ workflow "Terraform" {
 }
 
 action "terraform-fmt" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/terraform-action@master"
   args = ["fmt", "-check", "-recursive"]
 }
 
 action "terraform-init" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/terraform-action@master"
   needs = "terraform-fmt"
   args = ["init", "-input=false", "-no-color"]
   secrets = ["TFE_TOKEN"]
 }
 
 action "terraform-validate" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/terraform-action@master"
   needs = "terraform-init"
   args = ["validate", "-no-color"]
 }
 
 action "terraform-plan" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/terraform-action@master"
   needs = ["terraform-validate"]
   args = ["plan", "-input=false", "-no-color"]
   secrets = ["TFE_TOKEN"]
@@ -52,7 +52,7 @@ action "filter-master-branch" {
 }
 
 action "terraform-apply" {
-  uses = "innovationnorway/github-action-terraform@master"
+  uses = "innovationnorway/terraform-action@master"
   needs = ["filter-master-branch"]
   args = ["apply", "-auto-approve", "-input=false", "-no-color"]
   secrets = ["TFE_TOKEN"]
