@@ -11,7 +11,7 @@ workflow "Terraform" {
 }
 
 action "terraform-validate" {
-  uses = "innovationnorway/github-action-terraform/validate@master"
+  uses = "innovationnorway/terraform-action/validate@master"
   secrets = ["GITHUB_TOKEN"]
 }
 ```
