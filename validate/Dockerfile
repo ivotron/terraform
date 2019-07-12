@@ -1,4 +1,4 @@
-FROM hashicorp/terraform:0.12.3 AS terraform
+FROM hashicorp/terraform:0.12.4 AS terraform
 
 FROM node:alpine
 
