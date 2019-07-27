@@ -8,6 +8,7 @@ Usage information for individual commands can be found in their respective direc
 
 * [`fmt`](/fmt)
 * [`validate`](/validate)
+* [`test`](/test)
 
 Example workflow:
 
