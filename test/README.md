@@ -7,7 +7,7 @@ This Action runs `terraform init`, `terraform apply` and `terraform destroy` on 
 ```hcl
 workflow "Terraform" {
   on = "pull_request"
-  resolves = ["terraform-fmt"]
+  resolves = ["terraform-test"]
 }
 
 action "terraform-test" {
