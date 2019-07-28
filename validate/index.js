@@ -1,8 +1,33 @@
 const { Toolkit } = require('actions-toolkit')
 
 Toolkit.run(async tools => {
-  await tools.runInWorkspace('terraform', ['init', '-backend=false'])
-  const { stdout } = await tools.runInWorkspace('terraform', ['validate', '-json'], { reject: false })
+  try {
+    await tools.runInWorkspace(
+      'terraform',
+      ['init', '-backend=false', '-no-color']
+    )
+  } catch (err) {
+    await tools.github.checks.create({
+      ...tools.context.repo,
+      name: `actions/terraform-validate`,
+      head_sha: tools.context.sha,
+      status: 'completed',
+      conclusion: 'failure',
+      completed_at: new Date(),
+      output: {
+        title: 'Error initializing Terraform configuration',
+        summary: '`terraform init` failed.',
+        text: `\`\`\`\n${err.stderr}\n\`\`\``
+      }
+    })
+    tools.exit.failure(err)
+  }
+
+  const { stdout } = await tools.runInWorkspace(
+    'terraform',
+    ['validate', '-json'],
+    { reject: false }
+  )
   const result = JSON.parse(stdout)
 
   const annotations = (
@@ -25,23 +50,34 @@ Toolkit.run(async tools => {
     })
   )
 
-  await tools.github.checks.create({
-    ...tools.context.repo,
-    name: `actions/terraform-validate`,
-    head_sha: tools.context.sha,
-    status: 'completed',
-    conclusion: result.valid ? 'success' : 'failure',
-    completed_at: new Date(),
-    output: {
-      title: result.valid ? 'No errors' : `${result.error_count} error(s), ${result.warning_count} warning(s)`,
-      summary: `terraform validate ${result.valid ? 'succeeded' : 'failed'} with ${result.error_count} error(s) and ${result.warning_count} warning(s).`,
-      annotations: annotations
-    }
-  })
-
   if (result.valid) {
+    await tools.github.checks.create({
+      ...tools.context.repo,
+      name: `actions/terraform-validate`,
+      head_sha: tools.context.sha,
+      status: 'completed',
+      conclusion: 'success',
+      completed_at: new Date(),
+      output: {
+        title: 'Success!',
+        summary: 'The configuration is valid.'
+      }
+    })
     tools.exit.success()
   } else {
+    await tools.github.checks.create({
+      ...tools.context.repo,
+      name: `actions/terraform-validate`,
+      head_sha: tools.context.sha,
+      status: 'completed',
+      conclusion: 'failure',
+      completed_at: new Date(),
+      output: {
+        title: `${result.error_count} errors, ${result.warning_count} warnings`,
+        summary: 'The configuration is not valid.',
+        annotations: annotations
+      }
+    })
     tools.exit.failure()
   }
 },
