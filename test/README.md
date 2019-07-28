@@ -12,6 +12,7 @@ workflow "Terraform" {
 
 action "terraform-test" {
   uses = "innovationnorway/terraform-action/test@master"
+  args = ["--dir", "./test"]
   secrets = ["GITHUB_TOKEN"]
 }
 ```
